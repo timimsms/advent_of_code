@@ -13,6 +13,7 @@
 # => TriangleValidator.count_valid_triangles_by_col("./data/input.txt")
 defmodule TriangleValidator do
   # Basic representation of a Triangle
+  # TODO - move to it's own file once I have a better understanding of Mix.
   defmodule Triangle do
     defstruct a: 1, b: 1, c: 1
 
@@ -41,9 +42,10 @@ defmodule TriangleValidator do
       (triangle.c < (triangle.b + triangle.a ))
     end
   end
-  
+
+  ## PART I
   # Converts a input file containing triangle measurements into
-  # a list of Triangle objects.
+  # a list of Triangle objects by row.
   def load_triangle_measurements_by_row(filename) do
     Enum.map(
       File.stream!(filename),
@@ -52,10 +54,29 @@ defmodule TriangleValidator do
   end
 
   # Used to count the total valid triangle given a text 
-  # file containing measurement data.
+  # file containing measurement data listed by row.
   def count_valid_triangles_by_row(filename) do
     Enum.count(
       load_triangle_measurements_by_row(filename),
+      fn(triangle) -> Triangle.valid?(triangle) end
+    )
+  end
+
+  ## PART II
+  # Converts a input file containing triangle measurements into
+  # a list of Triangle objects by column in groups of three.
+  def load_triangle_measurements_by_col(filename) do
+    Enum.map(
+      File.stream!(filename),
+      fn(str) -> Triangle.parse(str) end
+    )
+  end
+
+  # Used to count the total valid triangle given a text 
+  # file containing measurement data using column method.
+  def count_valid_triangles_by_col(filename) do
+    Enum.count(
+      load_triangle_measurements_by_col(filename),
       fn(triangle) -> Triangle.valid?(triangle) end
     )
   end
