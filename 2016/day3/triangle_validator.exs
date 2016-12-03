@@ -1,6 +1,16 @@
+# require Triangle
+# 
 # Advent of Code - Day 3: Squares With Three Sides
-# Problem: http://adventofcode.com/2016/day/3
-# Solution: TriangleValidator.count_valid_triangles("./data/input.txt")
+# Author: Tim Walsh (c) 2016
+#
+# Elixir solutions for Day 3 Part I and II.
+# Run solutions via `iex triangle_validator.exs`.
+#
+# Part I Solution:
+# => TriangleValidator.count_valid_triangles_by_row("./data/input.txt")
+#
+# Part II Solution:
+# => TriangleValidator.count_valid_triangles_by_col("./data/input.txt")
 defmodule TriangleValidator do
   # Basic representation of a Triangle
   defmodule Triangle do
@@ -31,10 +41,10 @@ defmodule TriangleValidator do
       (triangle.c < (triangle.b + triangle.a ))
     end
   end
-
+  
   # Converts a input file containing triangle measurements into
   # a list of Triangle objects.
-  def load_triangle_measurements(filename) do
+  def load_triangle_measurements_by_row(filename) do
     Enum.map(
       File.stream!(filename),
       fn(str) -> Triangle.parse(str) end
@@ -43,9 +53,9 @@ defmodule TriangleValidator do
 
   # Used to count the total valid triangle given a text 
   # file containing measurement data.
-  def count_valid_triangles(filename) do
+  def count_valid_triangles_by_row(filename) do
     Enum.count(
-      load_triangle_measurements(filename),
+      load_triangle_measurements_by_row(filename),
       fn(triangle) -> Triangle.valid?(triangle) end
     )
   end
