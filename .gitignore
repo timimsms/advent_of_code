@@ -1,2 +1,11 @@
+# src: https://github.com/github/gitignore/blob/master/Elixir.gitignore
+/_build
+**/_build
+/cover
+/deps
+erl_crash.dump
+*.ez
+*.beam
+
 # Ignore Mac DS_Store files
 .DS_Store
