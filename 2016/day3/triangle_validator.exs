@@ -26,14 +26,6 @@ defmodule TriangleValidator do
       }
     end
 
-    # Converts a string of three numbers into a Triangle 
-    def parse(lwh) do
-      Enum.map(
-        String.split(lwh, ~r{\s}, trim: true),
-        fn(x) -> String.to_integer(x) end
-      ) |> build
-    end
-
     # In a valid triangle, the sum of any two sides must 
     # be larger than the remaining side.
     def valid?(triangle) do
@@ -43,13 +35,21 @@ defmodule TriangleValidator do
     end
   end
 
+  # Converts a string of numbers into an enumberable
+  def parse_array(str) do
+    Enum.map(
+      String.split(str, ~r{\s}, trim: true),
+      fn(x) -> String.to_integer(x) end
+    )
+  end
+
   ## PART I
   # Converts a input file containing triangle measurements into
   # a list of Triangle objects by row.
   def load_triangle_measurements_by_row(filename) do
     Enum.map(
       File.stream!(filename),
-      fn(str) -> Triangle.parse(str) end
+      fn(str) -> parse_array(str) |> Triangle.build end
     )
   end
 
@@ -66,10 +66,21 @@ defmodule TriangleValidator do
   # Converts a input file containing triangle measurements into
   # a list of Triangle objects by column in groups of three.
   def load_triangle_measurements_by_col(filename) do
+    # # Enum.map(
+    # #   File.stream!(filename),
+    # #   fn(str) -> Triangle.parse(str) end
+    # # )    
     Enum.map(
       File.stream!(filename),
-      fn(str) -> Triangle.parse(str) end
-    )
+      fn(str) -> parse_array(str) end
+    ) |> Stream.chunk(3) |> Enum.map(fn chunk ->
+      Enum.map(
+        List.zip(chunk),
+        fn(tuple) -> 
+          Triangle.build(Tuple.to_list(tuple))
+        end
+      )
+    end) |> List.flatten
   end
 
   # Used to count the total valid triangle given a text 
