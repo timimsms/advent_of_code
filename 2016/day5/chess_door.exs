@@ -18,7 +18,7 @@ defmodule ChessDoor do
   # Use Regex to determine if there is a valid key.
   # ChessDoor.check_hash("00000155F8105DFF7F56EE10FA9B9ABD")
   def check_hash(hash_str) do
-    Regex.named_captures(~r/\b(0{5})(?<key>\d)(.*)/, hash_str)
+    Regex.named_captures(~r/\b(0{5})(?<key>.)(.*)/, hash_str)
   end
 
   # Runs cracking algorithm based on provided input.
