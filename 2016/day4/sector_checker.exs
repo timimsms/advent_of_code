@@ -1,10 +1,10 @@
 # Advent of Code - Day 4: Security Through Obscurity
 # Author: Tim Walsh (c) 2016
 #
-# Elixir solutions for Day 4.
+# Elixir solutions for Day 4 (Part I).
 # Run solutions via `iex sector_checker.exs`.
 #
-# Solution:
+# Part I Solution:
 # => SectorChecker.sum_valid_sector_ids("./data/input.txt")
 defmodule SectorChecker do
   defmodule Sector do
