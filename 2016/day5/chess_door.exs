@@ -17,8 +17,13 @@ defmodule ChessDoor do
   end
 
   # Use Regex to determine if there is a valid key.
-  def check_hash(hash_str) do
-    Regex.named_captures(~r/\b(0{5})(?<key>.)(?<position>.)(.*)/, hash_str)
+  def check_hash_for_key(hash_str) do
+    Regex.named_captures(~r/\b(0{5})(?<key>.)(.*)/, hash_str)
+  end
+
+  # Use Regex to determine if there is a valid key.
+  def check_hash_for_key_and_pos(hash_str) do
+    Regex.named_captures(~r/\b(0{5})(?<position>.)(?<key>.)(.*)/, hash_str)
   end
 
   # Runs cracking algorithm based on provided input
@@ -29,11 +34,11 @@ defmodule ChessDoor do
     else
       attempt = "#{input}#{i}"
       hash_str = hash(attempt)
-      check = check_hash(hash_str)
+      check = check_hash_for_key(hash_str)
       unless is_nil(check) do
         key = check["key"]
-        IO.puts "#{attempt} => #{hash_str}"
-        IO.puts "key found! ~> #{key}"
+        # IO.puts "#{attempt} => #{hash_str}"
+        # IO.puts "key found! ~> #{key}"
         crack_easy(input, (i + 1), "#{result}#{key}")
       else
         crack_easy(input, (i + 1), result)
@@ -47,18 +52,25 @@ defmodule ChessDoor do
     unless String.match?(result, ~r/_/) do
       result
     else
-      check = check_hash(hash("#{input}#{i}"))
+      attempt = "#{input}#{i}"
+      hash_str = hash(attempt)
+      check = check_hash_for_key_and_pos(hash_str)
       unless is_nil(check) do
         result_ary = String.graphemes(result)
         key = check["key"]
         pos = String.to_integer(check["position"], 16)
         if (pos <= 7) && (Enum.at(result_ary, pos) == "_") do
           new_result = (result_ary |> List.replace_at(pos, key) |> Enum.join)
+          # IO.puts "#{attempt} => #{hash_str}"
+          # IO.puts "key found! ~> #{key} [pos: #{check["position"]} (#{pos})]"
           IO.puts new_result
           crack_hard(input, (i + 1), new_result)
-        end  
+        else
+          crack_hard(input, (i + 1), result)
+        end
+      else
+        crack_hard(input, (i + 1), result)
       end
-      crack_hard(input, (i + 1), result)
     end
   end
 end
