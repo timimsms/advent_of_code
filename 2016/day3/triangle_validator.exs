@@ -1,5 +1,3 @@
-# require Triangle
-# 
 # Advent of Code - Day 3: Squares With Three Sides
 # Author: Tim Walsh (c) 2016
 #
