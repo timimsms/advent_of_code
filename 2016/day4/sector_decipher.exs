@@ -88,11 +88,4 @@ defmodule SectorDecipher do
       String.match?(sector.name, ~r/northpole/)
     end)
   end
-
-  # SectorDecipher.test_decipher
-  def test_decipher do
-    "qzmt-zixmtkozy-ivhz-343[abxyz]"
-    |> Sector.parse
-    |> Sector.decipher_name(alphabet)
-  end
 end

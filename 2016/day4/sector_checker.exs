@@ -69,6 +69,8 @@ defmodule SectorChecker do
       |> Enum.sort_by(fn(a) -> List.last(Tuple.to_list a) end, &>=/2)
     end
 
+    # Valid if the checksum is the five most common letters in the 
+    # encrypted name, in order, with ties broken by alphabetization.
     def valid?(sector) do
       Sector.name_to_sorted_list(sector.name)
       |> Sector.gen_checksum([])
