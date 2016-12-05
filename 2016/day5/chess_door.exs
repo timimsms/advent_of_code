@@ -6,17 +6,16 @@ require IEx
 # Elixir solutions for Day 5.
 # Run solutions via `iex chess_door.exs`.
 #
+# Solution:
 # => ChessDoor.crack("uqwqemis", 0, "")
 defmodule ChessDoor do
   # Generates an MD5 hash for our purposes.
-  # => ChessDoor.hash("abc5278568")
   def hash(str) do
     :crypto.hash(:md5, str)
     |> Base.encode16
   end
 
   # Use Regex to determine if there is a valid key.
-  # ChessDoor.check_hash("00000155F8105DFF7F56EE10FA9B9ABD")
   def check_hash(hash_str) do
     Regex.named_captures(~r/\b(0{5})(?<key>.)(.*)/, hash_str)
   end
@@ -38,10 +37,5 @@ defmodule ChessDoor do
         crack(input, (i + 1), result)
       end
     end
-  end
-
-  # ChessDoor.run_test_input
-  def run_test_input do
-    crack("abc", 0, "")
   end
 end
