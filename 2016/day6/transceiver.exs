@@ -10,6 +10,39 @@
 # Part I Solution:
 # => Transceiver.decode("./data/input.txt", :least_common)
 defmodule Transceiver do
+  # Minimal testing module.
+  defmodule Test do
+    # => Transceiver.run_tests
+    def run_tests do
+      result = (test_decoder_by_mc && test_decoder_by_lc)
+      if result do
+        IO.puts "All tests pass! 🙌\n"
+      else 
+        IO.puts "One or more tests have failed... 💩\n"
+      end
+      result
+    end
+
+    ## TESTS
+    # Ensures the test input is provided the intended solution
+    # when decoding by most common frequency.
+    def test_decoder_by_mc do
+      String.equivalent?(
+        Transceiver.decode("./data/test.txt", :most_common),
+        "easter"
+      )
+    end
+
+    # Ensures the test input is provided the intended solution
+    # when decoding by least common frequency.
+    def test_decoder_by_lc do
+      String.equivalent?(
+        Transceiver.decode("./data/test.txt", :least_common),
+        "advent"
+      )
+    end
+  end
+  
   # Custom reduce method based on letter counts
   def reduce_by_letter_count(enumerable) do
     enumerable
@@ -59,21 +92,7 @@ defmodule Transceiver do
         raise "Error: Mode unknown."
     end
   end
-
-  ## TESTS
-  # Transceiver.test_decoder_by_most_common
-  def test_decoder_by_most_common do
-    String.equivalent?(
-      Transceiver.decode("./data/test.txt", :most_common),
-      "easter"
-    )
-  end
-
-  # Transceiver.test_decoder_by_least_common
-  def test_decoder_by_least_common do
-    String.equivalent?(
-      Transceiver.decode("./data/test.txt", :least_common),
-      "advent"
-    )
-  end
 end
+
+# Run tests on file load
+Transceiver.Test.run_tests
