@@ -1,3 +1,5 @@
+require IEx
+
 # Advent of Code - Day 6: Signals and Noise
 # Author: Tim Walsh (c) 2016
 #
@@ -18,19 +20,36 @@ defmodule IpScanner do
     end
   end
 
-  # def has_abba?(str) do
-  # end
+  # true if contains ABBA
+  def has_abba?(str) do
+    false
+  end
+
+  # true if has_abba?(str) == expected_bool
+  def assert_abba_val(str, expected_bool) do
+    IO.puts "[#{has_abba?(str)}] => #{str} should be #{expected_bool}"
+  end
+
+  # true if contains ABBA and is not within brackets
+  def valid_abba?(str) do
+    if String.starts_with?(str, "[")  do
+      str
+      |> String.trim_leading("[")
+      |> String.trim_trailing("]")
+      |> assert_abba_val(false)
+    else
+      str
+      |> assert_abba_val(true)
+    end
+  end
 
   # 
   def supports_tls?(ip) do
-    # IO.puts "~> #{ip}\r\n"
+    IO.puts "#{ip}\r\n"
     Regex.split(~r{(?<in>\W[\w]*\W)}, ip, on: [:in], include_captures: true)
     |> Enum.each(fn(x) ->
-      IO.puts "👍\t~>\t#{x}"
-    end)
-    Regex.scan(~r{(\W[\w]*\W)}, ip)
-    |> Enum.each(fn(x) ->
-      IO.puts "👎\t~>\t#{x}"
+      String.trim(x, "\n")
+      |> valid_abba?
     end)
     IO.puts "\r\n- - - - - - -\r\n"
   end
