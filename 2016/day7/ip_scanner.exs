@@ -21,13 +21,32 @@ defmodule IpScanner do
   end
 
   # true if contains ABBA
-  def has_abba?(str) do
-    false
+  # IpScanner.contains_abba?("abba") => true
+  # IpScanner.contains_abba?("abcd") => false
+  # IpScanner.contains_abba?("aaaa") => false
+  # IpScanner.contains_abba?("ioxxoj") => true
+  def contains_abba?(left, right) do
+    IO.puts "contains_abba?(left, right)"
+    IO.puts "\tleft:\t#{left}"
+    IO.puts "\tright:\t#{right}"
+    (left != right) && (left == String.reverse(right))
+  end
+  def contains_abba?(str) do
+    IO.puts "contains_abba?(str)"
+    if String.length(str) <= 1 do
+      false
+    else
+      {left, right} = String.split_at(str, div(String.length(str), 2))
+      contains_abba?(left, right)
+      || contains_abba?(String.slice(str, 1..(String.length(str)-2)))
+    end
   end
 
   # true if has_abba?(str) == expected_bool
   def assert_abba_val(str, expected_bool) do
-    IO.puts "[#{has_abba?(str)}] => #{str} should be #{expected_bool}"
+    result = contains_abba?(str)
+    IO.puts "[#{result}] => #{str} should be #{expected_bool}"
+    result == expected_bool
   end
 
   # true if contains ABBA and is not within brackets
