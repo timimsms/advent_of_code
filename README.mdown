@@ -1,5 +1,9 @@
 ### 🎄🔔 Advent of Code 🔔🎁
 
-Repository used to collect work related to the _Advent of Code_ event. **[[2016]](http://adventofcode.com/2016)**
+Repository used to collect work related to the _Advent of Code_ event.
 
-To learn more about _Advent of Code_, please visit their site: http://adventofcode.com
+- **[[2016]](https://adventofcode.com/2016)**
+- **[[2017]](https://adventofcode.com/2017)**
+- **[[2018]](https://adventofcode.com/2018)**
+
+To learn more about _Advent of Code_, please visit the official site: https://adventofcode.com
